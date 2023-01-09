@@ -10,11 +10,13 @@
 # Specify the font directory
 XDG_DATA_HOME=${XDG_DATA_HOME:-"$HOME/.local/share"}
 font_dir="$XDG_DATA_HOME/fonts"
+ttf_font_dir="${font_dir}/ttf"
 
 # Specify the font
 font="siji"
 bdf_font="bdf/${font}.bdf"
 pcf_font="pcf/${font}.pcf"
+ttf_font="ttf/${font}.ttf"
 
 # Bold Colors for formatting
 g="\033[1;32m" # Green
@@ -84,6 +86,17 @@ check_dir()
 		# Create the font directory if non-existent
 		mkdir -p $font_dir
 	fi
+
+	# Check if the specified ttf_font directory exists
+	if [ -d $ttf_font_dir ]; then
+		success "Found directory:" "$ttf_font_dir"
+	else
+		warning "directory not found:" "$ttf_font_dir"
+		success "Creating directory:" "$ttf_font_dir"
+
+		# Create the ttf_font directory if non-existent
+		mkdir -p $ttf_font_dir
+	fi
 }
 
 check_font()
@@ -105,6 +118,8 @@ check_font()
 		# If 'bdftopcf' is not installed then copy the precompiled '$pcf_font'
 		copy_pcf
 	fi
+
+    copy_ttf
 }
 
 make_pcf()
@@ -129,6 +144,21 @@ copy_pcf()
 
 		# If $pcf_font exists then proceed to copying
 		cp $pcf_font $font_dir
+
+		# Update the font cache
+		update_cache
+	else
+		die error 2
+	fi
+}
+
+copy_ttf()
+{
+	if [ -f "$ttf_font" ]; then
+		success "Copying" "'$ttf_font' -> '$ttf_font_dir'"
+
+		# If $pcf_font exists then proceed to copying
+		cp $ttf_font $ttf_font_dir
 
 		# Update the font cache
 		update_cache
