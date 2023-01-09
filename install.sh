@@ -35,19 +35,19 @@ usage()
 cat << HELP
 Usage:
 
-  ./install.sh [option] directory
+	./install.sh [option] directory
 
-  If invoked without any option then '$(basename $pcf_font)' will be installed in the '${font_dir}' directory
+	If invoked without any option then '$(basename $pcf_font)' will be installed in the '${font_dir}' directory
 
 Options:
 
-  -d   Specify the directory for installing the font
-       Default is '${font_dir}' it will be created if non-existent
-  -h   Show this help message
+	-d 	Specify the directory for installing the font
+		Default is '${font_dir}' it will be created if non-existent
+	-h 	Show this help message
 
 Example usage:
 
-  ./install -d ~/.fonts
+	./install -d ~/.fonts
 
 HELP
 }
@@ -119,7 +119,7 @@ check_font()
 		copy_pcf
 	fi
 
-    copy_ttf
+	copy_ttf
 }
 
 make_pcf()
@@ -184,17 +184,17 @@ post_install()
 {
 	if [ -f "$HOME/.xinitrc" ]; then
 		file="${w}$HOME/.xinitrc${rs}"
-	else 
+	else
 		file="custom startup script that gets executed during xlogin"
 	fi
 printf "
-  Successfully installed ${w}$(basename $pcf_font) -> ${font_dir}${rs}
-  Add the following snippet in your ${file}:
+	Successfully installed ${w}$(basename $pcf_font) -> ${font_dir}${rs}
+	Add the following snippet in your ${file}:
 
-    ${w}xset +fp ${font_dir}${rs}
-    ${w}xset fp rehash${rs}
+		${w}xset +fp ${font_dir}${rs}
+		${w}xset fp rehash${rs}
 
-  If it already exists then you can skip this step.
+	If it already exists then you can skip this step.
 "
 }
 
